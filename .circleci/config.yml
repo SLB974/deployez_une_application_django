@@ -5,7 +5,7 @@ jobs:
       - image: cimg/base:2021.04
     steps:
       - run:
-          name: The First Step
+          name: Installing dependencies
           command: |
-            echo 'Hello World!'
-            echo 'This is the delivery pipeline'
+            pip install -r requirements.txt
+            pytest
