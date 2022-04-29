@@ -1,11 +1,35 @@
 version: 2.1
-jobs:
-  build:
-    docker:
-      - image: cimg/base:2021.04
-    steps:
-      - run:
-          name: Installing dependencies
-          command: |
-            pip install -r requirements.txt
-            pytest
+
+orbs:
+  python: circleci/python@1.5.0
+
+
+workflows:
+  disquaire_circleci:
+
+    jobs:
+      build_and_test:
+        docker:
+          - image cimg/python:3.10.1
+        steps:
+          - checkout
+          - python/install-packages:
+            pkg-manager: pip
+          - run:
+              name: Run tests
+              command: python -m pytest
+          - persist_to_workspace:
+              root: ~/project
+              paths:
+                - .
+
+    # jobs:
+    #   build:
+    #     docker:
+    #       - image: cimg/base:2021.04
+    #     steps:
+    #       - run:
+    #           name: Installing dependencies
+    #           command: |
+    #             pip install -r requirements.txt
+    #             pytest
